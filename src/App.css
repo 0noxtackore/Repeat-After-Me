@@ -1,0 +1,575 @@
+#root {
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+}
+
+.appShell {
+  height: 100%;
+  width: 100%;
+  max-width: 100%;
+  display: flex;
+  background: var(--bg);
+  color: var(--text);
+  overflow: hidden;
+  position: relative;
+}
+
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(4px);
+  display: grid;
+  place-items: center;
+  z-index: 9999;
+}
+
+.modal {
+  width: min(420px, calc(100vw - 32px));
+  border-radius: 16px;
+  background: var(--panel-2);
+  border: 1px solid color-mix(in srgb, var(--accent) 15%, transparent);
+  padding: 20px;
+  display: grid;
+  gap: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+}
+
+.modalTitle {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.modalDescription {
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.modalActions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  margin-top: 8px;
+}
+
+.modalButton {
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  padding: 10px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  background: color-mix(in srgb, var(--text) 6%, transparent);
+  color: var(--text);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.modalButton:hover {
+  background: color-mix(in srgb, var(--text) 10%, transparent);
+}
+
+.modalButtonDanger {
+  background: rgba(255, 70, 70, 0.15);
+  color: #ff6b6b;
+  border-color: rgba(255, 70, 70, 0.3);
+}
+
+.modalButtonDanger:hover {
+  background: rgba(255, 70, 70, 0.25);
+}
+
+.sidebar {
+  width: 280px;
+  height: 100%;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px 16px;
+  background: var(--panel);
+  border-right: 1px solid color-mix(in srgb, var(--accent) 12%, transparent);
+  overflow: hidden;
+  transition: transform 0.3s ease;
+  z-index: 1000;
+}
+
+.sidebarHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.appTitle {
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logoImg {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  padding: 2px;
+}
+
+.primaryButton {
+  border-radius: 12px;
+  border: 1px solid var(--accent-border);
+  padding: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  background: linear-gradient(135deg, color-mix(in srgb, var(--accent) 14%, transparent) 0%, color-mix(in srgb, var(--accent) 6%, transparent) 100%);
+  color: var(--accent);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.primaryButton:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--accent) 18%, transparent);
+  border-color: color-mix(in srgb, var(--accent) 55%, transparent);
+  box-shadow: 0 0 15px color-mix(in srgb, var(--accent) 25%, transparent);
+}
+
+.primaryButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  border-color: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.4);
+  background: transparent;
+}
+
+.profiles {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 4px;
+  /* Custom Scrollbar for Profiles */
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in srgb, var(--accent) 30%, transparent) transparent;
+}
+
+.profiles::-webkit-scrollbar {
+  width: 6px;
+}
+
+.profiles::-webkit-scrollbar-thumb {
+  background: color-mix(in srgb, var(--accent) 22%, transparent);
+  border-radius: 3px;
+}
+
+.gsiContainer {
+  display: flex;
+  justify-content: center;
+  padding: 6px 0;
+}
+
+.profileItem {
+  display: grid;
+  grid-template-columns: 40px 1fr 32px;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid color-mix(in srgb, var(--border) 55%, transparent);
+  background: color-mix(in srgb, var(--text) 4%, transparent);
+  color: var(--text);
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.2s ease;
+}
+
+.profileItem:hover {
+  background: color-mix(in srgb, var(--text) 7%, transparent);
+  border-color: color-mix(in srgb, var(--border) 90%, transparent);
+}
+
+.profileItemActive {
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+  border-color: color-mix(in srgb, var(--accent) 45%, transparent);
+  box-shadow: 0 4px 12px color-mix(in srgb, var(--accent) 10%, transparent);
+}
+
+.profileAvatar {
+  height: 36px;
+  width: 36px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: color-mix(in srgb, var(--text) 12%, transparent);
+  color: var(--text);
+  font-weight: 600;
+  font-size: 16px;
+  overflow: hidden;
+}
+
+.avatarImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.profileLabel {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.closeProfileButton {
+  height: 32px;
+  width: 32px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--muted-2);
+  cursor: pointer;
+  font-size: 18px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  transition: all 0.2s;
+}
+
+.closeProfileButton:hover {
+  background: rgba(255, 70, 70, 0.15);
+  color: #ff6b6b;
+}
+
+.sidebarFooter {
+  margin-top: auto;
+  padding-top: 16px;
+  border-top: 1px solid color-mix(in srgb, var(--border) 70%, transparent);
+  display: grid;
+  gap: 12px;
+}
+
+.secondaryButton {
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  padding: 10px 12px;
+  font-size: 13px;
+  font-weight: 500;
+  background: color-mix(in srgb, var(--text) 6%, transparent);
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.secondaryButton:hover {
+  background: color-mix(in srgb, var(--text) 10%, transparent);
+  color: var(--text);
+}
+
+.hint {
+  font-size: 12px;
+  color: var(--muted-2);
+}
+
+.hintSuccess {
+  color: var(--accent);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.buttonWithIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.uiIcon {
+  width: 16px;
+  height: 16px;
+  flex: 0 0 auto;
+}
+
+.main {
+  flex: 1;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+  min-width: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  /* Scrollbar for main content */
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in srgb, var(--accent) 22%, transparent) transparent;
+}
+
+.main::-webkit-scrollbar {
+  width: 8px;
+}
+
+.main::-webkit-scrollbar-thumb {
+  background: color-mix(in srgb, var(--accent) 22%, transparent);
+  border-radius: 4px;
+}
+
+.panel {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  min-width: 0;
+  max-width: 1200px;
+  margin: 0 auto;
+  gap: 20px;
+  animation: panelIn 300ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+@keyframes panelIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.toolbar {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+  border-radius: 16px;
+  width: 100%;
+  min-width: 0;
+  background: color-mix(in srgb, var(--text) 4%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent) 15%, transparent);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.toolbarHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  min-width: 0;
+}
+
+.mobileMenuBtn {
+  display: none;
+  background: transparent;
+  border: 1px solid var(--accent-border);
+  color: var(--accent);
+  border-radius: 8px;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  line-height: 1;
+  font-size: 18px;
+  cursor: pointer;
+  place-items: center;
+}
+
+.fieldLabel {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.urlInput {
+  width: 100%;
+  min-width: 0;
+  border-radius: 12px;
+  padding: 14px 16px;
+  font-size: 15px;
+  font-family: inherit;
+  border: 1px solid var(--border);
+  background: var(--input-bg);
+  color: var(--text);
+  outline: none;
+  transition: all 0.2s;
+}
+
+.urlInput::placeholder {
+  color: var(--muted-2);
+}
+
+.urlInput:focus {
+  border-color: color-mix(in srgb, var(--accent) 60%, transparent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 18%, transparent);
+}
+
+.metaRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.ytConnectButton {
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+  color: var(--accent);
+  border: 1px solid color-mix(in srgb, var(--accent) 45%, transparent);
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.ytConnectButton:hover {
+  background: color-mix(in srgb, var(--accent) 18%, transparent);
+}
+
+.playerSurface {
+  flex: 1;
+  width: 100%;
+  min-height: 300px;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #000;
+  border: 1px solid color-mix(in srgb, var(--accent) 12%, transparent);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  display: flex;
+  position: relative;
+}
+
+.playerStack {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.playerFrame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.playerFrameActive {
+  opacity: 1;
+  pointer-events: auto;
+  z-index: 10;
+}
+
+.emptyState {
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 16px;
+  margin: auto;
+  text-align: center;
+}
+
+/* Responsive / Mobile Drawer */
+.mobileOverlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(2px);
+  z-index: 900;
+}
+
+@media (max-width: 768px) {
+  .appShell {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: min(280px, 86vw);
+    height: 100%;
+    transform: translateX(-100%);
+  }
+
+  .sidebarOpen {
+    transform: translateX(0);
+    box-shadow: 4px 0 24px rgba(0, 0, 0, 0.5);
+  }
+
+  .mobileMenuBtn {
+    display: grid;
+  }
+
+  .mobileOverlay {
+    display: block;
+  }
+
+  .main {
+    padding: 0;
+  }
+
+  .toolbarHeader {
+    flex-wrap: wrap;
+  }
+
+  .toolbar {
+    padding: 10px;
+    gap: 10px;
+    border-radius: 0;
+  }
+
+  .urlInput {
+    padding: 12px 14px;
+    font-size: 14px;
+  }
+
+  .metaRow {
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    gap: 8px;
+  }
+
+  .playerSurface {
+    min-height: 240px;
+    border-radius: 0;
+  }
+
+  .panel {
+    gap: 0;
+    margin: 0;
+    max-width: none;
+  }
+}
+
+@media (max-width: 420px) {
+  .main {
+    padding: 0;
+  }
+
+  .urlInput {
+    padding: 10px 12px;
+    font-size: 13px;
+  }
+
+  .toolbar {
+    padding: 8px;
+  }
+
+  .sidebar {
+    width: 92vw;
+  }
+}
