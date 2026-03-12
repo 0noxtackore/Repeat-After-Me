@@ -442,7 +442,7 @@
   min-height: 300px;
   border-radius: 16px;
   overflow: hidden;
-  background: #000;
+  background: var(--panel-2);
   border: 1px solid color-mix(in srgb, var(--accent) 12%, transparent);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
   display: flex;
@@ -478,6 +478,111 @@
   font-size: 16px;
   margin: auto;
   text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100%;
+}
+
+.techEmptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  font-family: 'Courier New', monospace;
+}
+
+.techText {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 24px;
+  font-weight: 300;
+  letter-spacing: 0.1em;
+}
+
+.techHighlight {
+  color: var(--accent);
+  font-weight: 600;
+  text-shadow: 0 0 20px color-mix(in srgb, var(--accent) 40%, transparent);
+  animation: techGlow 2s ease-in-out infinite alternate;
+}
+
+.techSeparator {
+  color: color-mix(in srgb, var(--accent) 60%, rgba(255, 255, 255, 0.5));
+  font-weight: 400;
+}
+
+.techNormal {
+  color: var(--text);
+  font-weight: 300;
+}
+
+.techSubtext {
+  color: var(--muted);
+  font-size: 14px;
+  font-family: 'Courier New', monospace;
+  letter-spacing: 0.05em;
+  opacity: 0;
+  animation: techFadeIn 1s ease-out 0.5s forwards;
+}
+
+@keyframes techGlow {
+  0% {
+    text-shadow: 0 0 20px color-mix(in srgb, var(--accent) 40%, transparent);
+  }
+  100% {
+    text-shadow: 0 0 30px color-mix(in srgb, var(--accent) 60%, transparent), 0 0 40px color-mix(in srgb, var(--accent) 30%, transparent);
+  }
+}
+
+@keyframes techFadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.welcomeIcon {
+  width: 80px;
+  height: 80px;
+  color: color-mix(in srgb, var(--accent) 60%, rgba(255, 255, 255, 0.3));
+  animation: welcomePulse 2s ease-in-out infinite;
+}
+
+@keyframes welcomePulse {
+  0%, 100% {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+}
+
+.spaceshipIcon {
+  width: 60px;
+  height: 60px;
+  color: var(--accent);
+  animation: spaceshipFloat 3s ease-in-out infinite;
+  filter: drop-shadow(0 0 20px color-mix(in srgb, var(--accent) 50%, transparent));
+}
+
+@keyframes spaceshipFloat {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  25% {
+    transform: translateY(-8px) rotate(5deg);
+  }
+  75% {
+    transform: translateY(8px) rotate(-5deg);
+  }
 }
 
 /* Responsive / Mobile Drawer */

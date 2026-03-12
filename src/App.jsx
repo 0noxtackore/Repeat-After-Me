@@ -165,6 +165,55 @@ function MoonIcon({ className }) {
   )
 }
 
+function SpaceshipIcon({ className }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <path
+        d="M12 2L15.09 8.26L22 9L17 14L18.18 21L12 17.77L5.82 21L7 14L2 9L8.91 8.26L12 2Z"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  )
+}
+
+function WelcomeIcon({ className }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <path
+        d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5z"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M9 12l2 2 4-4"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  )
+}
+
+function PlusIcon({ className }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <path
+        d="M12 5v14M5 12h14"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  )
+}
+
 function App() {
   const inputId = useId()
   const gsiButtonId = useId()
@@ -520,12 +569,12 @@ function App() {
             const cleanLabel = isDefaultProfileLabel(p.label) ? '' : p.label
             const displayLabel = p.youtubeChannelTitle || p.email || p.name || cleanLabel || 'Cuenta'
             return (
-              <button
+              <div
                 key={p.id}
-                type="button"
                 className={isActive ? 'profileItem profileItemActive' : 'profileItem'}
                 onClick={() => setActiveProfileId(p.id)}
                 title={displayLabel}
+                style={{ position: 'relative' }}
               >
                 <div className="profileAvatar">
                   {p.picture ? <img className="avatarImg" src={p.picture} alt="" /> : (displayLabel || 'P').slice(0, 1).toUpperCase()}
@@ -544,7 +593,7 @@ function App() {
                 >
                   ×
                 </button>
-              </button>
+              </div>
             )
           })}
         </div>
@@ -606,7 +655,22 @@ function App() {
                   const url = getEmbedUrlFromYouTubeUrl(p.url)
                   const isActive = p.id === activeProfileId
 
-                  if (!url) return null
+                  if (!url) {
+                    if (!isActive) return null
+                    return (
+                      <div key={p.id} className="emptyState">
+                        <div className="techEmptyState">
+                          <SpaceshipIcon className="spaceshipIcon" />
+                          <div className="techText">
+                            <span className="techHighlight">EN ESPERA</span>
+                          </div>
+                          <div className="techSubtext">
+                            &gt; Pega un enlace de video de YouTube arriba
+                          </div>
+                        </div>
+                      </div>
+                    )
+                  }
 
                   return (
                     <iframe
@@ -621,7 +685,19 @@ function App() {
                 })}
               </div>
             ) : (
-              <div className="emptyState">Sin perfiles</div>
+              <div className="emptyState">
+                <div className="techEmptyState">
+                  <SpaceshipIcon className="spaceshipIcon" />
+                  <div className="techText">
+                    <span className="techHighlight">INICIA</span>
+                    <span className="techSeparator">//</span>
+                    <span className="techNormal">tu experiencia multimedia</span>
+                  </div>
+                  <div className="techSubtext">
+                    &gt; Conecta tu cuenta de Google para comenzar
+                  </div>
+                </div>
+              </div>
             )}
           </div>
         </div>
